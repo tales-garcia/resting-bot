@@ -1,5 +1,6 @@
 import config from './config/auth';
 import * as Discord from 'discord.js';
+import MessagesController from './src/controllers/MessagesController';
 
 const client = new Discord.Client();
 
@@ -10,12 +11,7 @@ client.once('ready', () => {
 client.on('message', msg => {
     if (!msg.content.startsWith(config.prefix) || msg.author.bot) return;
 
-    const [, command] = msg.content.split(config.prefix);
-
-    if(!command) {
-        printHelp(msg);
-        return;
-    }
+    const command = MessagesController.handleMessage(msg.content);
 
     msg.channel.send(command);
 });
@@ -25,18 +21,9 @@ client.on('messageUpdate', msg => {
     
     if (!updatedContent.startsWith(config.prefix) || msg.author.bot) return;
 
-    const [, command] = updatedContent.split(config.prefix);
-
-    if(!command) {
-        printHelp(msg);
-        return;
-    }
+    const command = MessagesController.handleMessage(updatedContent);
 
     msg.channel.send(command);
 });
-
-function printHelp(msg: Discord.Message | Discord.PartialMessage) {
-    msg.channel.send('help');
-}
 
 client.login(config.token);
