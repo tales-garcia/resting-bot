@@ -38,22 +38,24 @@ export default class MessagesController {
                 if(!body) {
                     throw new AppError(`The command ***${action}*** requires a body in \`JSON\` format`)
                 }
-                break;
+                const data = await RequestController.post(url, body);
+                return data;
             }
             case 'put': {
                 if(!body) {
                     throw new AppError(`The command ***${action}*** requires a body in \`JSON\` format`)
                 }
-                break;
+                const data = await RequestController.put(url, body);
+                return data;
             }
             case 'delete': {
-                break;
+                const data = await RequestController.delete(url);
+                return data;
             }
             default: {
                 throw new AppError(`Invalid command: ***${action}***`);
             }
         }
-        return {};
     }
 
     static _printHelp() : string {
