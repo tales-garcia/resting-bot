@@ -1,10 +1,11 @@
 import config from '../../config/auth';
 import AppError from '../errors/AppError';
 import formatCommand from '../utils/formatCommand';
+import RequestController from '../utils/RequestController';
 
 export default class MessagesController {
 
-    static handleMessage(content: string) : string {
+    static async handleMessage(content: string) : Promise<string | object> {
         const [, command] = content.split(config.prefix);
 
         if (!command) {
@@ -14,21 +15,24 @@ export default class MessagesController {
         const [action, url] = formatCommand(command);
         const body = command.split('\`\`\`')[1];
 
+        let data: object;
+
         if(body) {
             const parsedBody = JSON.parse(body) as object;
-            MessagesController._handleCommand(action, url, parsedBody);
+            data = await MessagesController._handleCommand(action, url, parsedBody);
         } else {
-            MessagesController._handleCommand(action, url);
+            data = await MessagesController._handleCommand(action, url);
         }
 
-        return command;
+        return data;
     }
 
-    static _handleCommand(action: string, url: string, body?: object) {
+    static async _handleCommand(action: string, url: string, body?: object) : Promise<object> {
 
         switch (action) {
             case 'get': {
-                break;
+                const data = await RequestController.get(url);
+                return data;
             }
             case 'post': {
                 if(!body) {
@@ -49,6 +53,7 @@ export default class MessagesController {
                 throw new AppError(`Invalid command: ***${action}***`);
             }
         }
+        return {};
     }
 
     static _printHelp() : string {

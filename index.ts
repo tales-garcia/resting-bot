@@ -9,15 +9,20 @@ client.once('ready', () => {
     console.log('Ready');
 });
 
-client.on('message', msg => {
+client.on('message', async msg => {
 
     try {
 
         if (!msg.content.startsWith(config.prefix) || msg.author.bot) return;
 
-        const response = MessagesController.handleMessage(msg.content);
+        const data = await MessagesController.handleMessage(msg.content);
 
-        msg.channel.send(response);
+        if(typeof data === typeof 'string') {
+            msg.channel.send(data);
+            return;
+        }
+
+        msg.channel.send(`\`\`\`json\n${JSON.stringify(data, undefined, 4)}\`\`\``);
     } catch (e) {
         if (e instanceof AppError) {
             msg.reply(`${e.message}`);
@@ -27,16 +32,16 @@ client.on('message', msg => {
     }
 });
 
-client.on('messageUpdate', msg => {
+client.on('messageUpdate', async msg => {
 
     try {
         const updatedContent = msg.channel.messages.cache.first().content;
 
         if (!updatedContent.startsWith(config.prefix) || msg.author.bot) return;
 
-        const command = MessagesController.handleMessage(updatedContent);
+        const data = await MessagesController.handleMessage(updatedContent);
 
-        msg.channel.send(command);
+        msg.channel.send(`\`\`\`${JSON.stringify(data)}\`\`\``);
 
     } catch (e) {
         if (e instanceof AppError) {
