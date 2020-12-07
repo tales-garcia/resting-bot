@@ -14,6 +14,6 @@ export default class MessagesController {
     }
 
     static _printHelp() : string {
-        return 'help';
+        return '> ***List of commands***\n> - **get** <url>                         Send a GET request to <url>\n> - **post** <url>                       Send a POST reques to <url>\n> - **put** <url>                         Send a PUT request to <url>\n> - **delete** <url>                    Send a DELETE request to <url>';
     }
 }
