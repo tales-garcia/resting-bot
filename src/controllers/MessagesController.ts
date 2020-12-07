@@ -32,13 +32,13 @@ export default class MessagesController {
             }
             case 'post': {
                 if(!body) {
-                    throw new AppError(`The command ${action} requires a body in \`JSON\` format`)
+                    throw new AppError(`The command ***${action}*** requires a body in \`JSON\` format`)
                 }
                 break;
             }
             case 'put': {
                 if(!body) {
-                    throw new AppError(`The command ${action} requires a body in \`JSON\` format`)
+                    throw new AppError(`The command ***${action}*** requires a body in \`JSON\` format`)
                 }
                 break;
             }
@@ -46,7 +46,7 @@ export default class MessagesController {
                 break;
             }
             default: {
-                throw new AppError(`Invalid command: *${action}*`);
+                throw new AppError(`Invalid command: ***${action}***`);
             }
         }
     }

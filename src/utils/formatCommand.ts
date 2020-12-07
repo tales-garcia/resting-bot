@@ -5,7 +5,7 @@ export default function formatCommand(command: string): string[] {
     const [action, url] = command.split(' ');
 
     if (!url) {
-        throw new AppError(`The command ${action} requires an URL`);
+        throw new AppError(`The command ***${action}*** requires an URL`);
     }
 
     return [action, url];

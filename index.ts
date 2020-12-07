@@ -20,7 +20,7 @@ client.on('message', msg => {
         msg.channel.send(response);
     } catch (e) {
         if (e instanceof AppError) {
-            msg.channel.send(`Error executing command: **${e.message}**`);
+            msg.reply(`${e.message}`);
         } else {
             msg.channel.send(`Unknown error during command execution: **${e.message}**`)
         }
@@ -40,7 +40,7 @@ client.on('messageUpdate', msg => {
 
     } catch (e) {
         if (e instanceof AppError) {
-            msg.channel.send(`Error executing command: **${e.message}**`);
+            msg.reply(`${e.message}`);
         } else {
             msg.channel.send(`Unknown error during command execution: **${e.message}**`);
         }
