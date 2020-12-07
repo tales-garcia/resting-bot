@@ -2,18 +2,21 @@
   "name": "resting-bot",
   "version": "1.0.0",
   "description": "A bot for requesting apis via discord chat!",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "commit": "cz"
+    "commit": "cz",
+    "start": "ts-node-dev --transpile-only index.ts"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^12.5.1"
+    "discord.js": "^12.5.1",
+    "typescript": "^4.1.2"
   },
   "devDependencies": {
-    "cz-conventional-changelog": "^3.3.0"
+    "cz-conventional-changelog": "^3.3.0",
+    "ts-node-dev": "^1.0.0"
   },
   "config": {
     "commitizen": {
