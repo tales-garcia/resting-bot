@@ -1,7 +1,7 @@
 import config from '../../config/auth';
 import AppError from '../errors/AppError';
 import formatCommand from '../utils/formatCommand';
-import RequestController from '../utils/RequestController';
+import RequestController from './RequestController';
 
 export default class MessagesController {
 
