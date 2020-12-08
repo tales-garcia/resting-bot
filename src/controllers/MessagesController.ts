@@ -1,3 +1,4 @@
+import { MessageEmbed } from 'discord.js';
 import config from '../../config/auth';
 import AppError from '../errors/AppError';
 import formatCommand from '../utils/formatCommand';
@@ -5,7 +6,7 @@ import RequestController from './RequestController';
 
 export default class MessagesController {
 
-    static async handleMessage(content: string) : Promise<string | object> {
+    static async handleMessage(content: string): Promise<MessageEmbed | object> {
         const [, command] = content.split(config.prefix);
 
         if (!command) {
@@ -17,7 +18,7 @@ export default class MessagesController {
 
         let data: object;
 
-        if(body) {
+        if (body) {
             const parsedBody = JSON.parse(body) as object;
             data = await MessagesController._handleCommand(action, url, parsedBody);
         } else {
@@ -27,7 +28,7 @@ export default class MessagesController {
         return data;
     }
 
-    static async _handleCommand(action: string, url: string, body?: object) : Promise<object> {
+    static async _handleCommand(action: string, url: string, body?: object): Promise<object> {
 
         switch (action) {
             case 'get': {
@@ -35,14 +36,14 @@ export default class MessagesController {
                 return data;
             }
             case 'post': {
-                if(!body) {
+                if (!body) {
                     throw new AppError(`The command ***${action}*** requires a body in \`JSON\` format`)
                 }
                 const data = await RequestController.post(url, body);
                 return data;
             }
             case 'put': {
-                if(!body) {
+                if (!body) {
                     throw new AppError(`The command ***${action}*** requires a body in \`JSON\` format`)
                 }
                 const data = await RequestController.put(url, body);
@@ -58,7 +59,29 @@ export default class MessagesController {
         }
     }
 
-    static _printHelp() : string {
-        return '> ***List of commands***\n> - **get** <url>                         Send a GET request to <url>\n> - **post** <url> <body>        Send a POST reques to <url>\n> - **put** <url> <body>          Send a PUT request to <url>\n> - **delete** <url>                    Send a DELETE request to <url>';
+    static _printHelp(): MessageEmbed {
+        return new MessageEmbed({
+            color: 0x0099ff,
+            title: 'List of commands: RESTing bot',
+            description: 'Coming in next commit'
+        });
+    }
+
+    static greet(): MessageEmbed {
+        return new MessageEmbed({
+            color: '#202225',
+            title: 'Glad to be added to your server! :wave:',
+            description: `To get started, get to a text channel, type \`${config.prefix} [your request type here] [request URL here] [if required, JSON body here]\`. I support:
+            - \`get\`
+            - \`post\`
+            - \`put\`
+            - \`delete\`
+
+            For a full list of commands, type \`${config.prefix} help\` or just \`${config.prefix}\`.
+
+            **Very important note**: The \`JSON\` body must be surrounded with \`\`\`.
+
+            If you have any questions or need help with RESTing bot, **click [here](https://github.com/tales-garcia/resting-bot/issues/new)** to open an issue in **github**!`
+        });
     }
 }
