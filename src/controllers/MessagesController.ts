@@ -53,6 +53,9 @@ export default class MessagesController {
                 const data = await RequestController.delete(url);
                 return data;
             }
+            case 'help': {
+                return MessagesController._printHelp();
+            }
             default: {
                 throw new AppError(`Invalid command: ***${action}***`);
             }
