@@ -32,10 +32,16 @@ export default class MessagesController {
 
         switch (action) {
             case 'get': {
+                if(!url) {
+                    throw new AppError(`The command ***${action}*** requires an URL`);
+                }
                 const data = await RequestController.get(url);
                 return data;
             }
             case 'post': {
+                if(!url) {
+                    throw new AppError(`The command ***${action}*** requires an URL`);
+                }
                 if (!body) {
                     throw new AppError(`The command ***${action}*** requires a body in \`JSON\` format`)
                 }
@@ -43,6 +49,9 @@ export default class MessagesController {
                 return data;
             }
             case 'put': {
+                if(!url) {
+                    throw new AppError(`The command ***${action}*** requires an URL`);
+                }
                 if (!body) {
                     throw new AppError(`The command ***${action}*** requires a body in \`JSON\` format`)
                 }
@@ -50,6 +59,9 @@ export default class MessagesController {
                 return data;
             }
             case 'delete': {
+                if(!url) {
+                    throw new AppError(`The command ***${action}*** requires an URL`);
+                }
                 const data = await RequestController.delete(url);
                 return data;
             }
