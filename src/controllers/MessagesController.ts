@@ -61,9 +61,37 @@ export default class MessagesController {
 
     static _printHelp(): MessageEmbed {
         return new MessageEmbed({
-            color: 0x0099ff,
-            title: 'List of commands: RESTing bot',
-            description: 'Coming in next commit'
+            color: '#202225',
+            author: {
+                icon_url: 'https://cdn.discordapp.com/app-icons/785489602143322134/2920f31bf6a40b261579716421647179.png?size=64',
+                name: 'RESTing bot'
+            },
+            description: `RESTing bot is a discord bot that make requests to REST API's by chat, and prints the response data in chat.
+            ​
+            ​To get started, get to a text channel, type \`${config.prefix} [your request type here] [request URL here] [if required, JSON body here]\`.
+
+            **Commands**
+            The supported commands and request types by RESTing bot are:
+             - \`get [url here]\`
+             - \`post [url here] [**JSON** here]\`
+             - \`put [url here] [**JSON** here]\`
+             - \`delete [url here]\`
+
+             **Examples**
+             \`GET\`:
+             ${config.prefix} get https://api.github.com/users/tales-garcia
+
+             \`POST\`:
+             ${config.prefix} post https://api.github.com/users/tales-garcia \`\`\`
+            {
+                meaning_of_life: \'42\'
+            }\`\`\`
+
+            **Add to Discord**
+            To add RESTing bot to a server, click [here](https://discord.com/oauth2/authorize?client_id=785489602143322134&scope=bot).
+
+            **Support**
+            Click [here](https://github.com/tales-garcia/resting-bot/issues/new) to open an issue in github if you're having trouble or have any questions.`
         });
     }
 
