@@ -22,12 +22,15 @@ You can also send a `POST` request:
 `your-prefix` is specified in the `auth.ts` file.
 
 This should be the written message:
+
 ![message](./docs/post-request.png)
 
 If you want, you can create a new line:
+
 ![new-line](./docs/new-line-message.png)
 
 But the final result should be:
+
 ![final](./docs/final-result-request.png)
 
 **Remember:** The body param **must be surrounded by ```**!
