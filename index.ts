@@ -9,6 +9,10 @@ client.once('ready', () => {
     console.log('Ready');
 });
 
+function handleSendMessageError(msg: Discord.Message) {
+    msg.channel.send('Whoops.. :sweat_smile:: Looks like this API has too much data! Unfortunately, I can\'t print it here...')
+}
+
 client.on('message', async msg => {
 
     try {
@@ -17,12 +21,13 @@ client.on('message', async msg => {
 
         const data = await MessagesController.handleMessage(msg.content);
 
-        if(typeof data === typeof 'string') {
+        if(data === MessagesController._printHelp) {
+
             msg.channel.send(data);
             return;
         }
 
-        msg.channel.send(`\`\`\`json\n${JSON.stringify(data, undefined, 4)}\`\`\``);
+        msg.channel.send(`\`\`\`json\n${JSON.stringify(data, undefined, 4)}\`\`\``).catch(() => handleSendMessageError(msg));
     } catch (e) {
         if (e instanceof AppError) {
             msg.reply(`${e.message}`);
