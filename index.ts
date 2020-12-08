@@ -21,9 +21,9 @@ client.on('message', async msg => {
 
         const data = await MessagesController.handleMessage(msg.content);
 
-        if(data === MessagesController._printHelp) {
+        if (data instanceof Discord.MessageEmbed) {
 
-            msg.channel.send(data);
+            msg.channel.send({ embed: data });
             return;
         }
 
@@ -56,6 +56,17 @@ client.on('messageUpdate', async msg => {
         }
     }
 
+});
+
+client.on('guildCreate', guild => {
+    let foundChannel = false;
+    guild.channels.cache.forEach(async (channel) => {
+        if (channel.type == "text" && !foundChannel) {
+            foundChannel = true;
+            let textChannel = await channel.fetch(true) as Discord.TextChannel;
+            textChannel.send(MessagesController.greet());
+        }
+    });
 });
 
 client.login(config.token);
