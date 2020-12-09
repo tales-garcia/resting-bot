@@ -37,7 +37,7 @@ But the final result should be:
 
 **Warn!** In `auth.ts` file You shoudn't set the prefix value to anything that any URL can have, e.g.: **/**, **:** and **.**, otherwise the bot will throw an error.
 
-### Installation
+### Cloning
 
 Clone this repository:
 ```shell
