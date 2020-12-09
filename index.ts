@@ -39,8 +39,12 @@ client.on('message', async msg => {
 
 client.on('messageUpdate', async msg => {
 
+    if(!msg.author) return;
+
     try {
-        const updatedContent = msg.channel.messages.cache.first().content;
+        const updatedContent = msg.channel.messages.cache.first()?.content;
+
+        if(!updatedContent) return;
 
         if (!updatedContent.startsWith(config.prefix) || msg.author.bot) return;
 
