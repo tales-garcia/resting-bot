@@ -6,13 +6,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "commit": "cz",
-    "start": "ts-node-dev --transpile-only index.ts"
+    "start": "ts-node-dev --transpile-only index.ts",
+    "prod:start": "ts-node dist/index.js",
+    "build": "tsc -p ."
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.0",
     "discord.js": "^12.5.1",
+    "ts-node": "^9.1.1",
     "typescript": "^4.1.2"
   },
   "devDependencies": {
