@@ -19,7 +19,7 @@ You can also send a `POST` request:
 [your-prefix]post <url> ```<body>```
 ```
 
-`your-prefix` is specified in the `auth.ts` file.
+`your-prefix` is specified in the `.env` file.
 
 This should be the written message:
 
@@ -35,7 +35,7 @@ But the final result should be:
 
 **Remember:** The body param **must be surrounded by ```**!
 
-**Warn!** In `auth.ts` file You shoudn't set the prefix value to anything that any URL can have, e.g.: **/**, **:** and **.**, otherwise the bot will throw an error.
+**Warn!** In `.env` file You shoudn't set the prefix value to anything that any URL can contain, e.g.: **/**, **:** and **.**, otherwise the bot will throw an error.
 
 ### Cloning
 
@@ -49,7 +49,7 @@ Install dependencies:
 npm install
 ```
 
-Rename `config/auth.sample.ts` to `auth.ts` and fill it with your credentials.
+Rename `.env.example` to `.env` and fill it with your credentials.
 
 Start the bot:
 ```shell
