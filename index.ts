@@ -1,4 +1,4 @@
-import config from './config/auth';
+import 'dotenv/config';
 import * as Discord from 'discord.js';
 import MessagesController from './src/controllers/MessagesController';
 import AppError from './src/errors/AppError';
@@ -43,7 +43,7 @@ client.on('message', async msg => {
 
     try {
 
-        if (!msg.content.startsWith(config.prefix) || msg.author.bot) return;
+        if (!msg.content.startsWith(process.env.BOT_PREFIX || '#') || msg.author.bot) return;
 
         const data = await MessagesController.handleMessage(msg.content);
 
@@ -78,7 +78,7 @@ client.on('messageUpdate', async msg => {
 
         if(!updatedContent) return;
 
-        if (!updatedContent.startsWith(config.prefix) || msg.author.bot) return;
+        if (!updatedContent.startsWith(process.env.BOT_PREFIX || '#') || msg.author.bot) return;
 
         const data = await MessagesController.handleMessage(updatedContent);
 
@@ -105,4 +105,4 @@ client.on('guildCreate', guild => {
     });
 });
 
-client.login(config.token);
+client.login(process.env.CLIENT_SECRET);

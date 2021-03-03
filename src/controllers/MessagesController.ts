@@ -1,5 +1,4 @@
 import { MessageEmbed } from 'discord.js';
-import config from '../../config/auth';
 import AppError from '../errors/AppError';
 import formatCommand from '../utils/formatCommand';
 import RequestController from './RequestController';
@@ -7,7 +6,7 @@ import RequestController from './RequestController';
 export default class MessagesController {
 
     static async handleMessage(content: string): Promise<MessageEmbed | object> {
-        const [, command] = content.split(config.prefix);
+        const [, command] = content.split(process.env.BOT_PREFIX || '#');
 
         if (!command) {
             return MessagesController._printHelp();
@@ -83,7 +82,7 @@ export default class MessagesController {
             },
             description: `RESTing bot is a discord bot that make requests to REST API's by chat, and prints the response data in chat.
             ​
-            ​To get started, get to a text channel, type \`${config.prefix} [your request type here] [request URL here] [if required, JSON body here]\`.
+            ​To get started, get to a text channel, type \`${process.env.BOT_PREFIX || '#'} [your request type here] [request URL here] [if required, JSON body here]\`.
 
             **Commands**
             The supported commands and request types by RESTing bot are:
@@ -94,10 +93,10 @@ export default class MessagesController {
 
              **Examples**
              \`GET\`:
-             ${config.prefix} get https://api.github.com/users/tales-garcia
+             ${process.env.BOT_PREFIX || '#'} get https://api.github.com/users/tales-garcia
 
              \`POST\`:
-             ${config.prefix} post https://api.github.com/users/tales-garcia \`\`\`
+             ${process.env.BOT_PREFIX || '#'} post https://api.github.com/users/tales-garcia \`\`\`
             {
                 meaning_of_life: \'42\'
             }\`\`\`
@@ -114,13 +113,13 @@ export default class MessagesController {
         return new MessageEmbed({
             color: '#202225',
             title: 'Glad to be added to your server! :wave:',
-            description: `To get started, get to a text channel, type \`${config.prefix} [your request type here] [request URL here] [if required, JSON body here]\`. I support:
+            description: `To get started, get to a text channel, type \`${process.env.BOT_PREFIX || '#'} [your request type here] [request URL here] [if required, JSON body here]\`. I support:
             - \`get\`
             - \`post\`
             - \`put\`
             - \`delete\`
 
-            For a full list of commands, type \`${config.prefix} help\` or just \`${config.prefix}\`.
+            For a full list of commands, type \`${process.env.BOT_PREFIX || '#'} help\` or just \`${process.env.BOT_PREFIX || '#'}\`.
 
             **Very important note**: The \`JSON\` body must be surrounded with \`\`\`.
 
