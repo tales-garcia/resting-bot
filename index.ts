@@ -9,8 +9,34 @@ client.once('ready', () => {
     console.log('Ready');
 });
 
-function handleSendMessageError(msg: Discord.Message) {
-    msg.channel.send('Whoops.. :sweat_smile:: Looks like this API has too much data! Unfortunately, I can\'t print it here...')
+function handleSendMessageError(msg: Discord.Message, dataMsg: string) {
+    if (!dataMsg) return;
+
+    let characters = 0;
+    let lineFound = '';
+
+    dataMsg.split(/\r\n|\r|\n/).forEach(line => {
+        characters += line.length;
+
+        if (characters >= 1900 && !lineFound) {
+            lineFound = line;
+        }
+    });
+
+
+    dataMsg = dataMsg.replace(lineFound, `:84386572823465367365,,,.....;;;;;;lllllll${lineFound}`);
+
+    const [printableMsgContent, rest] = dataMsg.split(':84386572823465367365,,,.....;;;;;;lllllll');
+
+    msg.channel.send(printableMsgContent);
+
+    if (rest) {
+        msg.channel.send(`${(rest.match(/\ /g) || []).map(() => '\u200b').join('')}${rest}`).catch(e => {
+            if (e.code === 50035) {
+                handleSendMessageError(msg, `${(rest.match(/\ /g) || []).map(() => '\u200b').join('')}${rest}`)
+            }
+        });
+    }
 }
 
 client.on('message', async msg => {
@@ -27,7 +53,13 @@ client.on('message', async msg => {
             return;
         }
 
-        msg.channel.send(`\`\`\`json\n${JSON.stringify(data, undefined, 4)}\`\`\``).catch(() => handleSendMessageError(msg));
+        const dataMsg = `\`\`\`json\n${JSON.stringify(data, undefined, 4)}\n\`\`\``;
+
+        msg.channel.send(dataMsg).catch(e => {
+            if (e.code === 50035) {
+                handleSendMessageError(msg, dataMsg)
+            }
+        });
     } catch (e) {
         if (e instanceof AppError) {
             msg.reply(`${e.message}`);
