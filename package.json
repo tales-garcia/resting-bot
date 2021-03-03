@@ -6,9 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "commit": "cz",
-    "start": "node dist/index.js",
+    "start": "node dist/bundle.js",
     "dev:start": "ts-node-dev --transpile-only index.ts",
-    "build": "tsc -p ."
+    "build": "npm run js:build && npm run js:bundle && npm run js:minify && rm -r tmp",
+    "js:build": "tsc -p .",
+    "js:bundle": "browserify --no-bundle-external --entry tmp/javascript/index.js --outfile dist/bundle.js",
+    "js:minify": "terser dist/bundle.js --compress --mangle --output dist/bundle.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,12 +19,13 @@
     "axios": "^0.21.0",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
-    "ts-node": "^9.1.1",
     "typescript": "^4.1.2"
   },
   "devDependencies": {
     "@types/node": "^14.14.31",
+    "browserify": "^17.0.0",
     "cz-conventional-changelog": "^3.3.0",
+    "terser": "^5.6.0",
     "ts-node-dev": "^1.0.0"
   },
   "config": {
