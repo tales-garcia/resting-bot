@@ -33,9 +33,6 @@ But the final result should be:
 
 ![final](./docs/final-result-request.png)
 
-# License
-
-This project uses the MIT License.
 **Remember:** The body param **must be surrounded by ```**!
 
 **Warn!** In `.env` file You shoudn't set the prefix value to anything that any URL can contain, e.g.: **/**, **:** and **.**, otherwise the bot will throw an error.
@@ -58,3 +55,8 @@ Start the bot:
 ```shell
 npm start
 ```
+
+
+# License
+
+This project uses the MIT License.
