@@ -9,6 +9,10 @@ client.once('ready', () => {
     console.log('Ready');
 });
 
+function printJSON(msg: Discord.Message, content: string) {
+    return msg.channel.send(`\`\`\`json\n${content}\n\`\`\``);
+}
+
 function handleSendMessageError(msg: Discord.Message, dataMsg: string) {
     if (!dataMsg) return;
 
@@ -28,10 +32,10 @@ function handleSendMessageError(msg: Discord.Message, dataMsg: string) {
 
     const [printableMsgContent, rest] = dataMsg.split(':84386572823465367365,,,.....;;;;;;lllllll');
 
-    msg.channel.send(printableMsgContent);
+    printJSON(msg, printableMsgContent);
 
     if (rest) {
-        msg.channel.send(`${(rest.match(/\ /g) || []).map(() => '\u200b').join('')}${rest}`).catch(e => {
+        printJSON(msg, `${(rest.match(/\ /g) || []).map(() => '\u200b').join('')}${rest}`).catch(e => {
             if (e.code === 50035) {
                 handleSendMessageError(msg, `${(rest.match(/\ /g) || []).map(() => '\u200b').join('')}${rest}`)
             }
@@ -53,9 +57,9 @@ client.on('message', async msg => {
             return;
         }
 
-        const dataMsg = `\`\`\`json\n${JSON.stringify(data, undefined, 4)}\n\`\`\``;
+        const dataMsg = JSON.stringify(data, undefined, 4);
 
-        msg.channel.send(dataMsg).catch(e => {
+        printJSON(msg, dataMsg).catch(e => {
             if (e.code === 50035) {
                 handleSendMessageError(msg, dataMsg)
             }
