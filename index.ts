@@ -32,12 +32,14 @@ function handleSendMessageError(msg: Discord.Message, dataMsg: string) {
 
     const [printableMsgContent, rest] = dataMsg.split(':84386572823465367365,,,.....;;;;;;lllllll');
 
-    printJSON(msg, printableMsgContent);
+    if (printableMsgContent) {
+        printJSON(msg, printableMsgContent);
+    }
 
     if (rest) {
-        printJSON(msg, `${(rest.match(/\ /g) || []).map(() => '\u200b').join('')}${rest}`).catch(e => {
+        printJSON(msg, `${(lineFound.match(/\ /g) || []).map(() => '\u200b').join('')}${rest}`).catch(e => {
             if (e.code === 50035) {
-                handleSendMessageError(msg, `${(rest.match(/\ /g) || []).map(() => '\u200b').join('')}${rest}`)
+                handleSendMessageError(msg, `${(lineFound.match(/\ /g) || []).map(() => '\u200b').join('')}${rest}`)
             }
         });
     }
