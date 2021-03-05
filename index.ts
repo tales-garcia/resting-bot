@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import * as Discord from 'discord.js';
-import events from './src/events';
+import events from './src/config/events';
 
 const client = new Discord.Client();
 

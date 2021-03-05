@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import * as Discord from 'discord.js';
-import MessagesController from './controllers/MessagesController';
-import AppError from './errors/AppError';
+import MessagesController from '../controllers/MessagesController';
+import AppError from '../errors/AppError';
 
 type EventsType = {
     [key in keyof Discord.ClientEvents]?: (...args: Discord.ClientEvents[key]) => void;
