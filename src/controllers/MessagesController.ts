@@ -1,7 +1,7 @@
 import { MessageEmbed } from 'discord.js';
 import AppError from '../errors/AppError';
 import formatCommand from '../utils/formatCommand';
-import RequestController from './RequestController';
+import commands from '../config/commands';
 
 export default class MessagesController {
 
@@ -29,48 +29,22 @@ export default class MessagesController {
 
     static async _handleCommand(action: string, url: string, body?: object): Promise<object> {
 
-        switch (action) {
-            case 'get': {
-                if(!url) {
-                    throw new AppError(`The command ***${action}*** requires an URL`);
-                }
-                const data = await RequestController.get(url);
-                return data;
-            }
-            case 'post': {
-                if(!url) {
-                    throw new AppError(`The command ***${action}*** requires an URL`);
-                }
-                if (!body) {
-                    throw new AppError(`The command ***${action}*** requires a body in \`JSON\` format`)
-                }
-                const data = await RequestController.post(url, body);
-                return data;
-            }
-            case 'put': {
-                if(!url) {
-                    throw new AppError(`The command ***${action}*** requires an URL`);
-                }
-                if (!body) {
-                    throw new AppError(`The command ***${action}*** requires a body in \`JSON\` format`)
-                }
-                const data = await RequestController.put(url, body);
-                return data;
-            }
-            case 'delete': {
-                if(!url) {
-                    throw new AppError(`The command ***${action}*** requires an URL`);
-                }
-                const data = await RequestController.delete(url);
-                return data;
-            }
-            case 'help': {
-                return MessagesController._printHelp();
-            }
-            default: {
-                throw new AppError(`Invalid command: ***${action}***`);
-            }
+        if (!commands[action]) {
+            throw new AppError(`Invalid command: ***${action}***`);
         }
+
+        const args: { [key: string]: any } = {
+            url,
+            body
+        };
+
+        const missingParam = commands[action].requires.find(requiredField => !args[requiredField]);
+
+        if (missingParam) {
+            throw new AppError(`The command ***${action}*** requires the param: **${missingParam}**`);
+        }
+
+        return await commands[action].execute(url, body);
     }
 
     static _printHelp(): MessageEmbed {
