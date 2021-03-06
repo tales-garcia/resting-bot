@@ -5,7 +5,7 @@ import commands from '../config/commands';
 
 export default class MessagesController {
 
-    static async handleMessage(content: string): Promise<MessageEmbed | object> {
+    static async handleMessage(content: string): Promise<MessageEmbed | object | string> {
         const [, command] = content.split(process.env.BOT_PREFIX || '#');
 
         if (!command) {
@@ -15,7 +15,7 @@ export default class MessagesController {
         const [action, url] = formatCommand(command);
         const body = command.split('\`\`\`')[1];
 
-        let data: object;
+        let data: object | string;
 
         if (body) {
             const parsedBody = JSON.parse(body) as object;
@@ -27,7 +27,7 @@ export default class MessagesController {
         return data;
     }
 
-    static async _handleCommand(action: string, url: string, body?: object): Promise<object> {
+    static async _handleCommand(action: string, url: string, body?: object): Promise<object | string> {
 
         if (!commands[action]) {
             throw new AppError(`Invalid command: ***${action}***`);
@@ -60,21 +60,10 @@ export default class MessagesController {
 
             **Commands**
             The supported commands and request types by RESTing bot are:
-             - \`get [url here]\`
-             - \`post [url here] [**JSON** here]\`
-             - \`put [url here] [**JSON** here]\`
-             - \`delete [url here]\`
+            ${Object.keys(commands).map(command => `- \`${command} ${commands[command].requires.map(param => `[${param} here]`).join(' ')}\`\n`).join('')}
+            **Examples**
 
-             **Examples**
-             \`GET\`:
-             ${process.env.BOT_PREFIX || '#'} get https://api.github.com/users/tales-garcia
-
-             \`POST\`:
-             ${process.env.BOT_PREFIX || '#'} post https://api.github.com/users/tales-garcia \`\`\`
-            {
-                meaning_of_life: \'42\'
-            }\`\`\`
-
+            ${Object.keys(commands).filter(command => !!commands[command].example).map(command => `\`${command.toUpperCase()}\`:${commands[command].example}`).join('\n')}
             **Add to Discord**
             To add RESTing bot to a server, click [here](https://discord.com/oauth2/authorize?client_id=785489602143322134&scope=bot).
 
@@ -88,10 +77,7 @@ export default class MessagesController {
             color: '#202225',
             title: 'Glad to be added to your server! :wave:',
             description: `To get started, get to a text channel, type \`${process.env.BOT_PREFIX || '#'} [your request type here] [request URL here] [if required, JSON body here]\`. I support:
-            - \`get\`
-            - \`post\`
-            - \`put\`
-            - \`delete\`
+            ${Object.keys(commands).map(command => `- \`${command}\`\n`).join('')}
 
             For a full list of commands, type \`${process.env.BOT_PREFIX || '#'} help\` or just \`${process.env.BOT_PREFIX || '#'}\`.
 
