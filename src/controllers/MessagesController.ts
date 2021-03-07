@@ -12,39 +12,26 @@ export default class MessagesController {
             return MessagesController._printHelp();
         }
 
-        const [action, url] = formatCommand(command);
-        const body = command.split('\`\`\`')[1];
+        const [action, ...args] = formatCommand(command);
 
-        let data: object | string;
-
-        if (body) {
-            const parsedBody = JSON.parse(body) as object;
-            data = await MessagesController._handleCommand(action, url, parsedBody);
-        } else {
-            data = await MessagesController._handleCommand(action, url);
-        }
+        const data: object | string = MessagesController._handleCommand(action, ...args);
 
         return data;
     }
 
-    static async _handleCommand(action: string, url: string, body?: object): Promise<object | string> {
+    static async _handleCommand(action: string, ...args: any[]): Promise<object | string> {
 
         if (!commands[action]) {
             throw new AppError(`Invalid command: ***${action}***`);
         }
 
-        const args: { [key: string]: any } = {
-            url,
-            body
-        };
-
-        const missingParam = commands[action].requires.find(requiredField => !args[requiredField]);
+        const missingParam = commands[action].requires.find((_, index) => !args[index]);
 
         if (missingParam) {
             throw new AppError(`The command ***${action}*** requires the param: **${missingParam}**`);
         }
 
-        return await commands[action].execute(url, body);
+        return await commands[action].execute(...args);
     }
 
     static _printHelp(): MessageEmbed {
