@@ -49,7 +49,18 @@ const commands: commandsType = {
         `
     },
     put: {
-        requires: ["url", "body"],
+        requires: ["url", {
+            param: "body",
+            formatParam: (body) => {
+                try {
+                    return JSON.parse(body.replace('\`\`\`', ''));
+                } catch (e) {
+                    if (e instanceof SyntaxError) {
+                        throw new AppError('Invalid \`JSON\` sysntax');
+                    }
+                }
+            }
+        }],
         execute: async (url: string, body: string) => {
             const data = await RequestController.put(url, JSON.parse(body.replace('\`\`\`', '')));
             return data;
