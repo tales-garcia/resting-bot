@@ -31,6 +31,14 @@ export default class MessagesController {
             throw new AppError(`The command ***${action}*** requires the param: **${missingParam}**`);
         }
 
+        args = commands[action].requires.map((param, index) => {
+            if (commands[action].parser![param]) {
+                return commands[action].parser![param](args[index]);
+            }
+        }).filter(arg => arg);
+
+        console.log(args)
+
         return await commands[action].execute(...args);
     }
 

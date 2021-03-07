@@ -2,14 +2,12 @@ import RequestController from '../controllers/RequestController';
 import MessagesController from '../controllers/MessagesController';
 import AppError from '../errors/AppError';
 
-interface Param {
-    param: string;
-    formatParam?: (param: string) => any;
-}
-
 type commandsType = {
     [key: string]: {
-        requires: (string | Param)[];
+        requires: string[];
+        parser?: {
+            [key: string]: (param: string) => any;
+        };
         execute: (...args: any[]) => Promise<object | string>;
         example?: string;
     };
@@ -27,9 +25,9 @@ const commands: commandsType = {
         `
     },
     post: {
-        requires: ["url", {
-            param: "body",
-            formatParam: (body) => {
+        requires: ["url", "body"],
+        parser: {
+            body: (body) => {
                 try {
                     return JSON.parse(body.replace('\`\`\`', ''));
                 } catch (e) {
@@ -38,7 +36,7 @@ const commands: commandsType = {
                     }
                 }
             }
-        }],
+        },
         execute: async (url: string, body: string) => {
             const data = await RequestController.post(url, JSON.parse(body.replace('\`\`\`', '')));
             return data;
@@ -49,9 +47,9 @@ const commands: commandsType = {
         `
     },
     put: {
-        requires: ["url", {
-            param: "body",
-            formatParam: (body) => {
+        requires: ["url", "body"],
+        parser: {
+            body: (body) => {
                 try {
                     return JSON.parse(body.replace('\`\`\`', ''));
                 } catch (e) {
@@ -60,7 +58,7 @@ const commands: commandsType = {
                     }
                 }
             }
-        }],
+        },
         execute: async (url: string, body: string) => {
             const data = await RequestController.put(url, JSON.parse(body.replace('\`\`\`', '')));
             return data;
