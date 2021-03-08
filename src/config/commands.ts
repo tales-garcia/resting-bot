@@ -34,6 +34,7 @@ const commands: commandsType = {
                     if (e instanceof SyntaxError) {
                         throw new AppError('Invalid \`JSON\` sysntax');
                     }
+                    throw new Error(e);
                 }
             }
         },
@@ -56,6 +57,7 @@ const commands: commandsType = {
                     if (e instanceof SyntaxError) {
                         throw new AppError('Invalid \`JSON\` sysntax');
                     }
+                    throw new Error(e);
                 }
             }
         },
