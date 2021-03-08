@@ -29,7 +29,7 @@ const commands: commandsType = {
         parser: {
             body: (body) => {
                 try {
-                    return JSON.parse(body.replace('\`\`\`', ''));
+                    return JSON.parse(body.replace('\`', ''));
                 } catch (e) {
                     if (e instanceof SyntaxError) {
                         throw new AppError('Invalid \`JSON\` sysntax');
@@ -51,7 +51,7 @@ const commands: commandsType = {
         parser: {
             body: (body) => {
                 try {
-                    return JSON.parse(body.replace('\`\`\`', ''));
+                    return JSON.parse(body.replace('\`', ''));
                 } catch (e) {
                     if (e instanceof SyntaxError) {
                         throw new AppError('Invalid \`JSON\` sysntax');
