@@ -37,8 +37,6 @@ export default class MessagesController {
             }
         }).filter(arg => arg);
 
-        console.log(args)
-
         return await commands[action].execute(...args);
     }
 
