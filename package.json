@@ -14,7 +14,7 @@
     "js:minify": "terser dist/bundle.js --compress --mangle --output dist/bundle.js"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "axios": "^0.21.0",
     "discord.js": "^12.5.1",
