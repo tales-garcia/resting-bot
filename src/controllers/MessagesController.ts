@@ -6,7 +6,10 @@ import commands from '../config/commands';
 export default class MessagesController {
 
     static async handleMessage(content: string): Promise<MessageEmbed | object | string> {
-        const [, command] = content.split(process.env.BOT_PREFIX || '#');
+        const splittedCommand = content.split('');
+        splittedCommand.splice(0, (process.env.BOT_PREFIX || '#').length);
+
+        const command = splittedCommand.join('');
 
         if (!command) {
             return MessagesController._printHelp();
