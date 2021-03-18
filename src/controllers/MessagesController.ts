@@ -35,7 +35,7 @@ export default class MessagesController {
         }
 
         args = commands[action].requires.map((param, index) => {
-            if (commands[action].parser![param]) {
+            if (commands[action].parser && commands[action].parser![param]) {
                 return commands[action].parser![param](args[index]);
             }
         }).filter(arg => arg);
