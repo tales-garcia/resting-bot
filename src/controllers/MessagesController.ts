@@ -38,6 +38,7 @@ export default class MessagesController {
             if (commands[action].parser && commands[action].parser![param]) {
                 return commands[action].parser![param](args[index]);
             }
+            return args[index];
         }).filter(arg => arg);
 
         return await commands[action].execute(...args);
