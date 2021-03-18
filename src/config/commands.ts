@@ -21,7 +21,7 @@ const commands: commandsType = {
             return data;
         },
         example: `
-        ${process.env.BOT_PREFIX || '#'}get https://api.github.com/users/tales-garcia 
+        ${process.env.BOT_PREFIX || '-'}get https://api.github.com/users/tales-garcia 
         `
     },
     post: {
@@ -43,7 +43,7 @@ const commands: commandsType = {
             return data;
         },
         example: `
-        ${process.env.BOT_PREFIX || '#'}post https://api.github.com/users/tales-garcia 
+        ${process.env.BOT_PREFIX || '-'}post https://api.github.com/users/tales-garcia 
         \`\`\`{\n   meaning_of_life: \'42\'\n}\`\`\`
         `
     },

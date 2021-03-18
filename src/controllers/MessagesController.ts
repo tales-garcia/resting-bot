@@ -7,7 +7,7 @@ export default class MessagesController {
 
     static async handleMessage(content: string): Promise<MessageEmbed | object | string> {
         const splittedCommand = content.split('');
-        splittedCommand.splice(0, (process.env.BOT_PREFIX || '#').length);
+        splittedCommand.splice(0, (process.env.BOT_PREFIX || '-').length);
 
         const command = splittedCommand.join('');
 
@@ -53,7 +53,7 @@ export default class MessagesController {
             },
             description: `RESTing bot is a discord bot that make requests to REST API's by chat, and prints the response data in chat.
             ​
-            ​To get started, get to a text channel, type \`${process.env.BOT_PREFIX || '#'} [your request type here] [request URL here] [if required, JSON body here]\`.
+            ​To get started, get to a text channel, type \`${process.env.BOT_PREFIX || '-'} [your request type here] [request URL here] [if required, JSON body here]\`.
 
             **Commands**
             The supported commands and request types by RESTing bot are:
@@ -73,10 +73,10 @@ export default class MessagesController {
         return new MessageEmbed({
             color: '#202225',
             title: 'Glad to be added to your server! :wave:',
-            description: `To get started, get to a text channel, type \`${process.env.BOT_PREFIX || '#'} [your request type here] [request URL here] [if required, JSON body here]\`. I support:
+            description: `To get started, get to a text channel, type \`${process.env.BOT_PREFIX || '-'} [your request type here] [request URL here] [if required, JSON body here]\`. I support:
             ${Object.keys(commands).map(command => `- \`${command}\`\n`).join('')}
 
-            For a full list of commands, type \`${process.env.BOT_PREFIX || '#'} help\` or just \`${process.env.BOT_PREFIX || '#'}\`.
+            For a full list of commands, type \`${process.env.BOT_PREFIX || '-'} help\` or just \`${process.env.BOT_PREFIX || '-'}\`.
 
             **Very important note**: The \`JSON\` body must be surrounded with \`\`\`.
 

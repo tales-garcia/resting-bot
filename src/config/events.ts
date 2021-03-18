@@ -63,7 +63,7 @@ export default {
     
             if(!updatedContent) return;
     
-            if (!updatedContent.startsWith(process.env.BOT_PREFIX || '#') || msg.author.bot) return;
+            if (!updatedContent.startsWith(process.env.BOT_PREFIX || '-') || msg.author.bot) return;
     
             const data = await MessagesController.handleMessage(updatedContent);
     
@@ -81,7 +81,7 @@ export default {
 
         try {
     
-            if (!msg.content.startsWith(process.env.BOT_PREFIX || '#') || msg.author.bot) return;
+            if (!msg.content.startsWith(process.env.BOT_PREFIX || '-') || msg.author.bot) return;
     
             const data = await MessagesController.handleMessage(msg.content);
     
