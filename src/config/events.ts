@@ -54,12 +54,12 @@ export default {
             }
         });
     },
-    messageUpdate: async msg => {
+    messageUpdate: async (_, msg) => {
 
         if(!msg.author) return;
     
         try {
-            const updatedContent = msg.channel.messages.cache.first()?.content;
+            const updatedContent = msg.content;
     
             if(!updatedContent) return;
     
