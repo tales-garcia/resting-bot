@@ -10,12 +10,14 @@ type commandsType = {
         };
         execute: (...args: any[]) => Promise<object | string>;
         example?: string;
+        description?: string;
     };
 };
 
 const commands: commandsType = {
     get: {
         requires: ["url"],
+        description: 'Sends a request of GET type',
         execute: async (url: string) => {
             const data = await RequestController.get(url);
             return data;
@@ -26,6 +28,7 @@ const commands: commandsType = {
     },
     post: {
         requires: ["url", "body"],
+        description: 'Sends a request of POST type',
         parser: {
             body: (body) => {
                 try {
@@ -49,6 +52,7 @@ const commands: commandsType = {
     },
     put: {
         requires: ["url", "body"],
+        description: 'Sends a request of PUT type',
         parser: {
             body: (body) => {
                 try {
@@ -68,6 +72,7 @@ const commands: commandsType = {
     },
     delete: {
         requires: ["url"],
+        description: 'Sends a request of DELETE type',
         execute: async (url: string) => {
             const data = await RequestController.delete(url);
             return data;
@@ -75,6 +80,7 @@ const commands: commandsType = {
     },
     help: {
         requires: [],
+        description: 'Prints the help message',
         execute: async () => {
             return MessagesController._printHelp();
         }
