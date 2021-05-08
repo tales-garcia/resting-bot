@@ -62,7 +62,7 @@ export default class MessagesController {
 
             ${Object.keys(commands).filter(command => !!commands[command].example).map(command => `\`${command.toUpperCase()}\`:${commands[command].example}`).join('\n')}
             **Add to Discord**
-            To add RESTing bot to a server, click [here](https://discord.com/oauth2/authorize?client_id=785489602143322134&scope=bot).
+            To add RESTing bot to a server, click [here](https://discord.com/api/oauth2/authorize?client_id=785489602143322134&permissions=0&scope=applications.commands%20bot).
 
             **Support**
             Click [here](https://github.com/tales-garcia/resting-bot/issues/new) to open an issue in github if you're having trouble or have any questions.`
@@ -77,8 +77,6 @@ export default class MessagesController {
             ${Object.keys(commands).map(command => `- \`${command}\`\n`).join('')}
 
             For a full list of commands, type \`${process.env.BOT_PREFIX || '-'} help\` or just \`${process.env.BOT_PREFIX || '-'}\`.
-
-            **Very important note**: The \`JSON\` body must be surrounded with \`\`\`.
 
             If you have any questions or need help with RESTing bot, **click [here](https://github.com/tales-garcia/resting-bot/issues/new)** to open an issue in **github**!`
         });
