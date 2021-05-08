@@ -38,8 +38,8 @@ const commands: commandsType = {
                 }
             }
         },
-        execute: async (url: string, body: string) => {
-            const data = await RequestController.post(url, JSON.parse(body.replace('\`\`\`', '')));
+        execute: async (url: string, body: object) => {
+            const data = await RequestController.post(url, body);
             return data;
         },
         example: `
@@ -61,8 +61,8 @@ const commands: commandsType = {
                 }
             }
         },
-        execute: async (url: string, body: string) => {
-            const data = await RequestController.put(url, JSON.parse(body.replace('\`\`\`', '')));
+        execute: async (url: string, body: object) => {
+            const data = await RequestController.put(url, body);
             return data;
         }
     },
