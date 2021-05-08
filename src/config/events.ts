@@ -67,7 +67,19 @@ export default {
     
             const data = await MessagesController.handleMessage(updatedContent);
     
-            msg.channel.send(`\`\`\`${JSON.stringify(data)}\`\`\``);
+            if (data instanceof Discord.MessageEmbed) {
+    
+                msg.channel.send({ embed: data });
+                return;
+            }
+    
+            const dataMsg = JSON.stringify(data, undefined, 4);
+    
+            printJSON((msg as any), dataMsg).catch(e => {
+                if (e.code === 50035) {
+                    handleSendMessageError((msg as any), dataMsg)
+                }
+            });
     
         } catch (e) {
             if (e instanceof AppError) {
