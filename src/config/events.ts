@@ -56,31 +56,31 @@ export default {
     },
     messageUpdate: async (_, msg) => {
 
-        if(!msg.author) return;
-    
+        if (!msg.author) return;
+
         try {
             const updatedContent = msg.content;
-    
-            if(!updatedContent) return;
-    
+
+            if (!updatedContent) return;
+
             if (!updatedContent.startsWith(process.env.BOT_PREFIX || '-') || msg.author.bot) return;
-    
+
             const data = await MessagesController.handleMessage(updatedContent);
-    
+
             if (data instanceof Discord.MessageEmbed) {
-    
+
                 msg.channel.send({ embed: data });
                 return;
             }
-    
+
             const dataMsg = JSON.stringify(data, undefined, 4);
-    
+
             printJSON((msg as any), dataMsg).catch(e => {
                 if (e.code === 50035) {
                     handleSendMessageError((msg as any), dataMsg)
                 }
             });
-    
+
         } catch (e) {
             if (e instanceof AppError) {
                 msg.reply(`${e.message}`);
@@ -92,19 +92,19 @@ export default {
     message: async msg => {
 
         try {
-    
+
             if (!msg.content.startsWith(process.env.BOT_PREFIX || '-') || msg.author.bot) return;
-    
+
             const data = await MessagesController.handleMessage(msg.content);
-    
+
             if (data instanceof Discord.MessageEmbed) {
-    
+
                 msg.channel.send({ embed: data });
                 return;
             }
-    
+
             const dataMsg = JSON.stringify(data, undefined, 4);
-    
+
             printJSON(msg, dataMsg).catch(e => {
                 if (e.code === 50035) {
                     handleSendMessageError(msg, dataMsg)
