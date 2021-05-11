@@ -10,7 +10,7 @@ type commandsType = {
         };
         execute: (...args: any[]) => Promise<object | string>;
         example?: string;
-        description?: string;
+        description: string;
     };
 };
 
