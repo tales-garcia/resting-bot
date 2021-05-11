@@ -1,10 +1,11 @@
 import RequestController from '../controllers/RequestController';
 import MessagesController from '../controllers/MessagesController';
 import AppError from '../errors/AppError';
+import { ApplicationCommandOptionData } from 'discord.js';
 
 type commandsType = {
     [key: string]: {
-        requires: string[];
+        requires: ApplicationCommandOptionData[];
         parser?: {
             [key: string]: (param: string) => any;
         };
@@ -16,7 +17,14 @@ type commandsType = {
 
 const commands: commandsType = {
     get: {
-        requires: ["url"],
+        requires: [
+            {
+                name: 'url',
+                description: 'The url to send a request to',
+                type: 'STRING',
+                required: true
+            }
+        ],
         description: 'Sends a request of GET type',
         execute: async (url: string) => {
             const data = await RequestController.get(url);
@@ -27,7 +35,20 @@ const commands: commandsType = {
         `
     },
     post: {
-        requires: ["url", "body"],
+        requires: [
+            {
+                name: 'url',
+                description: 'The url to send a request to',
+                type: 'STRING',
+                required: true
+            },
+            {
+                name: 'body',
+                description: 'The body in JSON format to send',
+                type: 'STRING',
+                required: true
+            }
+        ],
         description: 'Sends a request of POST type',
         parser: {
             body: (body) => {
@@ -51,7 +72,20 @@ const commands: commandsType = {
         `
     },
     put: {
-        requires: ["url", "body"],
+        requires: [
+            {
+                name: 'url',
+                description: 'The url to send a request to',
+                type: 'STRING',
+                required: true
+            },
+            {
+                name: 'body',
+                description: 'The body in JSON format to send',
+                type: 'STRING',
+                required: true
+            }
+        ],
         description: 'Sends a request of PUT type',
         parser: {
             body: (body) => {
@@ -71,7 +105,14 @@ const commands: commandsType = {
         }
     },
     delete: {
-        requires: ["url"],
+        requires: [
+            {
+                name: 'url',
+                description: 'The url to send a request to',
+                type: 'STRING',
+                required: true
+            }
+        ],
         description: 'Sends a request of DELETE type',
         execute: async (url: string) => {
             const data = await RequestController.delete(url);
