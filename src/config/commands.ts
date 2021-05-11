@@ -5,7 +5,7 @@ import { ApplicationCommandOptionData } from 'discord.js';
 
 type commandsType = {
     [key: string]: {
-        requires: ApplicationCommandOptionData[];
+        options: ApplicationCommandOptionData[];
         parser?: {
             [key: string]: (param: string) => any;
         };
@@ -17,7 +17,7 @@ type commandsType = {
 
 const commands: commandsType = {
     get: {
-        requires: [
+        options: [
             {
                 name: 'url',
                 description: 'The url to send a request to',
@@ -35,7 +35,7 @@ const commands: commandsType = {
         `
     },
     post: {
-        requires: [
+        options: [
             {
                 name: 'url',
                 description: 'The url to send a request to',
@@ -72,7 +72,7 @@ const commands: commandsType = {
         `
     },
     put: {
-        requires: [
+        options: [
             {
                 name: 'url',
                 description: 'The url to send a request to',
@@ -105,7 +105,7 @@ const commands: commandsType = {
         }
     },
     delete: {
-        requires: [
+        options: [
             {
                 name: 'url',
                 description: 'The url to send a request to',
@@ -120,7 +120,7 @@ const commands: commandsType = {
         }
     },
     help: {
-        requires: [],
+        options: [],
         description: 'Prints the help message',
         execute: async () => {
             return MessagesController._printHelp();

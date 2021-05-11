@@ -28,13 +28,13 @@ export default class MessagesController {
             throw new AppError(`Invalid command: ***${action}***`);
         }
 
-        const missingParam = commands[action].requires.find((param, index) => !args[index] && param.required);
+        const missingParam = commands[action].options.find((param, index) => !args[index] && param.required);
 
         if (missingParam) {
             throw new AppError(`The command ***${action}*** requires the param: **${missingParam.name}**`);
         }
 
-        args = commands[action].requires.map((param, index) => {
+        args = commands[action].options.map((param, index) => {
             if (commands[action].parser && commands[action].parser![param.name]) {
                 return commands[action].parser![param.name](args[index]);
             }
@@ -57,7 +57,7 @@ export default class MessagesController {
 
             **Commands**
             The supported commands and request types by RESTing bot are:
-            ${Object.keys(commands).map(command => `- \`${command} ${commands[command].requires.map(param => `[${param.name} here]`).join(' ')}\`\n`).join('')}
+            ${Object.keys(commands).map(command => `- \`${command} ${commands[command].options.map(param => `[${param.name} here]`).join(' ')}\`\n`).join('')}
             **Examples**
 
             ${Object.keys(commands).filter(command => !!commands[command].example).map(command => `\`${command.toUpperCase()}\`:${commands[command].example}`).join('\n')}
