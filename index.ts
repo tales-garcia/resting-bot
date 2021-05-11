@@ -3,7 +3,9 @@ import * as Discord from 'discord.js';
 import events from './src/config/events';
 import commands from './src/config/commands';
 
-const client = new Discord.Client();
+const client = new Discord.Client({
+    intents: [Discord.Intents.NON_PRIVILEGED]
+});
 
 client.once('ready', async () => {
     console.log('Ready');
@@ -11,21 +13,12 @@ client.once('ready', async () => {
     Object.keys(commands).forEach(key => {
         const command = commands[key]
 
-        const options = command.requires.map(param => ({
-            name: param,
-            description: 'ef',
-            type: 3,
-            required: true
-        }))
-
-        client.api.applications(client.user.id).commands.post({data:{
+        client.application?.commands.create({
             name: key,
             description: command.description,
-            options
-        }});
+            options: command.options,
+        })
     });
-
-    client.api.applications(client.user.id).commands.set([]);
 
 });
 
