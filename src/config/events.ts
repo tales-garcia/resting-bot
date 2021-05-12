@@ -2,45 +2,10 @@ import 'dotenv/config';
 import * as Discord from 'discord.js';
 import MessagesController from '../controllers/MessagesController';
 import AppError from '../errors/AppError';
+import splitResponse from '../utils/splitResponse';
 
 type EventsType = {
     [key in keyof Discord.ClientEvents]?: (...args: Discord.ClientEvents[key]) => void;
-}
-
-function printJSON(msg: Discord.Message, content: string) {
-    return msg.channel.send(`\`\`\`json\n${content}\n\`\`\``);
-}
-
-function handleSendMessageError(msg: Discord.Message, dataMsg: string) {
-    if (!dataMsg) return;
-
-    let characters = 0;
-    let lineFound = '';
-
-    dataMsg.split(/\r\n|\r|\n/).forEach(line => {
-        characters += line.length;
-
-        if (characters >= 1900 && !lineFound) {
-            lineFound = line;
-        }
-    });
-
-
-    dataMsg = dataMsg.replace(lineFound, `:84386572823465367365,,,.....;;;;;;lllllll${lineFound}`);
-
-    const [printableMsgContent, rest] = dataMsg.split(':84386572823465367365,,,.....;;;;;;lllllll');
-
-    if (printableMsgContent) {
-        printJSON(msg, printableMsgContent);
-    }
-
-    if (rest) {
-        printJSON(msg, `${(lineFound.match(/\ /g) || []).map(() => '\u200b').join('')}${rest}`).catch(e => {
-            if (e.code === 50035) {
-                handleSendMessageError(msg, `${(lineFound.match(/\ /g) || []).map(() => '\u200b').join('')}${rest}`)
-            }
-        });
-    }
 }
 
 export default {
@@ -73,13 +38,9 @@ export default {
                 return;
             }
 
-            const dataMsg = JSON.stringify(data, undefined, 4);
+            const dataMsg = splitResponse(JSON.stringify(data, undefined, 4));
 
-            printJSON((msg as any), dataMsg).catch(e => {
-                if (e.code === 50035) {
-                    handleSendMessageError((msg as any), dataMsg)
-                }
-            });
+            dataMsg.forEach(content => msg.channel.send(`\`\`\`json\n${content}\n\`\`\``))
 
         } catch (e) {
             if (e instanceof AppError) {
@@ -103,13 +64,9 @@ export default {
                 return;
             }
 
-            const dataMsg = JSON.stringify(data, undefined, 4);
+            const dataMsg = splitResponse(JSON.stringify(data, undefined, 4));
 
-            printJSON(msg, dataMsg).catch(e => {
-                if (e.code === 50035) {
-                    handleSendMessageError(msg, dataMsg)
-                }
-            });
+            dataMsg.forEach(content => msg.channel.send(`\`\`\`json\n${content}\n\`\`\``))
         } catch (e) {
             if (e instanceof AppError) {
                 msg.reply(`${e.message}`);
