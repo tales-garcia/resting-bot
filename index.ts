@@ -10,6 +10,8 @@ const client = new Discord.Client({
 client.once('ready', async () => {
     console.log('Ready');
 
+    client.user?.setStatus('dnd');
+
     Object.keys(commands).forEach(key => {
         const command = commands[key]
 
