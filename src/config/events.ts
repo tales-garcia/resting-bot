@@ -2,6 +2,7 @@ import 'dotenv/config';
 import * as Discord from 'discord.js';
 import MessagesController from '../controllers/MessagesController';
 import AppError from '../errors/AppError';
+import commands from './commands';
 import splitResponse from '../utils/splitResponse';
 
 type EventsType = {
@@ -72,6 +73,33 @@ export default {
                 msg.reply(`${e.message}`);
             } else {
                 msg.channel.send(`Unknown error during command execution: **${e.message}**`)
+            }
+        }
+    },
+    interaction: async interaction => {
+        if (!interaction.isCommand()) return;
+
+        try {
+            const data = await commands[interaction.commandName].execute(...interaction.options.map(option => option.value));
+            
+            if (data instanceof Discord.MessageEmbed) {
+                await interaction.reply(data);
+                return;
+            }
+
+            await interaction.defer();
+
+            const stringData = JSON.stringify(data, undefined, 4);
+
+            const splittedData = splitResponse(stringData);
+
+            splittedData.forEach(content => interaction.webhook.send(`\`\`\`json\n${content}\n\`\`\``));
+
+        } catch (e) {
+            if (e instanceof AppError) {
+                interaction.reply(`${e.message}`);
+            } else {
+                interaction.reply(`Unknown error during command execution: **${e.message}**`)
             }
         }
     }
