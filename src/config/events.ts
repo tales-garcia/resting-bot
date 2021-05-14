@@ -80,8 +80,8 @@ export default {
         if (!interaction.isCommand()) return;
 
         try {
-            const data = await commands[interaction.commandName].execute(...interaction.options.map(option => option.value));
-            
+            const data = await commands[interaction.commandName].execute(...interaction.options.map(option => option.value || null));
+
             if (data instanceof Discord.MessageEmbed) {
                 await interaction.reply(data);
                 return;
