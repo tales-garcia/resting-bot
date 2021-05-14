@@ -39,7 +39,7 @@ export default class MessagesController {
                 return commands[action].parser![param.name](args[index]);
             }
             return args[index];
-        }).filter(arg => arg);
+        });
 
         return await commands[action].execute(...args);
     }
