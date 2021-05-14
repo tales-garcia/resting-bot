@@ -100,7 +100,13 @@ export default {
 
             const splittedData = splitResponse(stringData);
 
-            splittedData.forEach(content => interaction.webhook.send(`\`\`\`json\n${content}\n\`\`\``));
+            splittedData.forEach(async (content, index) => {
+                if (index === 0) {
+                    interaction.editReply(`\`\`\`json\n${content}\n\`\`\``);
+                    return;
+                }
+                (await interaction.fetchReply()).channel.send(`\`\`\`json\n${content}\n\`\`\``);
+            });
 
         } catch (e) {
             if (e instanceof AppError) {
