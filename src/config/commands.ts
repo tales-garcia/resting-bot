@@ -15,6 +15,13 @@ type commandsType = {
     };
 };
 
+const urlParser = (url: string) => {
+    if (!url.match(/^[a-zA-Z]+:\/\//)) {
+        return `http://${url}`;
+    }
+    return url;
+}
+
 const commands: commandsType = {
     get: {
         options: [
@@ -26,12 +33,7 @@ const commands: commandsType = {
             }
         ],
         parser: {
-            url: (url) => {
-                if (!url.match(/^[a-zA-Z]+:\/\//)) {
-                    return `http://${url}`;
-                }
-                return url;
-            }
+            url: urlParser
         },
         description: 'Sends a request of GET type',
         execute: async (url: string) => {
@@ -69,12 +71,7 @@ const commands: commandsType = {
                     throw new Error(e);
                 }
             },
-            url: (url) => {
-                if (!url.match(/^[a-zA-Z]+:\/\//)) {
-                    return `http://${url}`;
-                }
-                return url;
-            }
+            url: urlParser
         },
         execute: async (url: string, body: object) => {
             const data = await RequestController.post(url, body);
@@ -112,12 +109,7 @@ const commands: commandsType = {
                     throw new Error(e);
                 }
             },
-            url: (url) => {
-                if (!url.match(/^[a-zA-Z]+:\/\//)) {
-                    return `http://${url}`;
-                }
-                return url;
-            }
+            url: urlParser
         },
         execute: async (url: string, body: object) => {
             const data = await RequestController.put(url, body);
@@ -134,12 +126,7 @@ const commands: commandsType = {
             }
         ],
         parser: {
-            url: (url) => {
-                if (!url.match(/^[a-zA-Z]+:\/\//)) {
-                    return `http://${url}`;
-                }
-                return url;
-            }
+            url: urlParser
         },
         description: 'Sends a request of DELETE type',
         execute: async (url: string) => {
