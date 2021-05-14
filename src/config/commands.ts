@@ -7,7 +7,7 @@ type commandsType = {
     [key: string]: {
         options: ApplicationCommandOptionData[];
         parser?: {
-            [key: string]: (param: string) => any;
+            [key: string]: (param: any) => any;
         };
         execute: (...args: any[]) => Promise<object | string>;
         example?: string;
@@ -25,6 +25,14 @@ const commands: commandsType = {
                 required: true
             }
         ],
+        parser: {
+            url: (url) => {
+                if (!url.match(/^[a-zA-Z]+:\/\//)) {
+                    return `http://${url}`;
+                }
+                return url;
+            }
+        },
         description: 'Sends a request of GET type',
         execute: async (url: string) => {
             const data = await RequestController.get(url);
@@ -60,6 +68,12 @@ const commands: commandsType = {
                     }
                     throw new Error(e);
                 }
+            },
+            url: (url) => {
+                if (!url.match(/^[a-zA-Z]+:\/\//)) {
+                    return `http://${url}`;
+                }
+                return url;
             }
         },
         execute: async (url: string, body: object) => {
@@ -97,6 +111,12 @@ const commands: commandsType = {
                     }
                     throw new Error(e);
                 }
+            },
+            url: (url) => {
+                if (!url.match(/^[a-zA-Z]+:\/\//)) {
+                    return `http://${url}`;
+                }
+                return url;
             }
         },
         execute: async (url: string, body: object) => {
@@ -113,6 +133,14 @@ const commands: commandsType = {
                 required: true
             }
         ],
+        parser: {
+            url: (url) => {
+                if (!url.match(/^[a-zA-Z]+:\/\//)) {
+                    return `http://${url}`;
+                }
+                return url;
+            }
+        },
         description: 'Sends a request of DELETE type',
         execute: async (url: string) => {
             const data = await RequestController.delete(url);
