@@ -15,6 +15,17 @@ type commandsType = {
     };
 };
 
+const bodyParser = (body: string) => {
+    try {
+        return JSON.parse(body.replace(/\`/g, ''));
+    } catch (e) {
+        if (e instanceof SyntaxError) {
+            throw new AppError('Invalid \`JSON\` syntax');
+        }
+        throw new Error(e);
+    }
+}
+
 const urlParser = (url: string) => {
     if (!url.match(/^[a-zA-Z]+:\/\//)) {
         return `http://${url}`;
@@ -61,16 +72,7 @@ const commands: commandsType = {
         ],
         description: 'Sends a request of POST type',
         parser: {
-            body: (body) => {
-                try {
-                    return JSON.parse(body.replace(/\`/g, ''));
-                } catch (e) {
-                    if (e instanceof SyntaxError) {
-                        throw new AppError('Invalid \`JSON\` syntax');
-                    }
-                    throw new Error(e);
-                }
-            },
+            body: bodyParser,
             url: urlParser
         },
         execute: async (url: string, body: object) => {
@@ -99,16 +101,7 @@ const commands: commandsType = {
         ],
         description: 'Sends a request of PUT type',
         parser: {
-            body: (body) => {
-                try {
-                    return JSON.parse(body.replace(/\`/g, ''));
-                } catch (e) {
-                    if (e instanceof SyntaxError) {
-                        throw new AppError('Invalid \`JSON\` syntax');
-                    }
-                    throw new Error(e);
-                }
-            },
+            body: bodyParser,
             url: urlParser
         },
         execute: async (url: string, body: object) => {
