@@ -33,10 +33,6 @@ But the final result should be:
 
 ![final](./docs/final-result-request.png)
 
-**Remember:** The body param **must be surrounded by ```**!
-
-**Warn!** In `.env` file You shoudn't set the prefix value to anything that any URL can contain, e.g.: **/**, **:** and **.**, otherwise the bot will throw an error.
-
 ### Cloning
 
 Clone this repository:
