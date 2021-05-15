@@ -12,9 +12,11 @@ export default function splitResponse(data: string): string[] {
         }
     });
 
-    data = data.replace(lineFound, `:84386572823465367365,,,.....;;;;;;lllllll${lineFound}`);
+    const uniqueString = `${new Date().toISOString()}${Date.now()}9736893562198756984129846781687161"'][-=9]`;
 
-    const [printableMsgContent, rest] = data.split(':84386572823465367365,,,.....;;;;;;lllllll');
+    data = data.replace(lineFound, `${uniqueString}${lineFound}`);
+
+    const [printableMsgContent, rest] = data.split(uniqueString);
 
     if (rest && rest.length > 1900) {
         return [printableMsgContent, ...splitResponse(`${(lineFound.match(/\ /g) || []).map(() => '\u200b').join('')}${rest}`)];
