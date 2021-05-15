@@ -49,7 +49,7 @@ Rename `.env.example` to `.env` and fill it with your credentials.
 
 Start the bot:
 ```shell
-npm start
+npm run dev:start
 ```
 
 
