@@ -7,7 +7,7 @@ RESTing bot is a discord bot, which can send requests to REST Api's by text mess
 
 ### Usage
 
-To invite RESTing bot to a discord server, click [here](https://discord.com/oauth2/authorize?client_id=785489602143322134&scope=bot).
+To invite RESTing bot to a discord server, click [here](https://discord.com/api/oauth2/authorize?client_id=785489602143322134&permissions=2147568640&scope=applications.commands%20bot).
 
 At a server with RESTing bot, get to a text channel and type:
 ```
