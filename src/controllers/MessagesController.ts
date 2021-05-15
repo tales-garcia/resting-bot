@@ -48,7 +48,7 @@ export default class MessagesController {
         return new MessageEmbed({
             color: '#202225',
             author: {
-                icon_url: 'https://cdn.discordapp.com/app-icons/785489602143322134/2920f31bf6a40b261579716421647179.png?size=64',
+                icon_url: process.env.BOT_IMAGE,
                 name: 'RESTing bot'
             },
             description: `RESTing bot is a discord bot that make requests to REST API's by chat, and prints the response data in chat.
@@ -62,10 +62,10 @@ export default class MessagesController {
 
             ${Object.keys(commands).filter(command => !!commands[command].example).map(command => `\`${command.toUpperCase()}\`:${commands[command].example}`).join('\n')}
             **Add to Discord**
-            To add RESTing bot to a server, click [here](https://discord.com/api/oauth2/authorize?client_id=785489602143322134&permissions=0&scope=applications.commands%20bot).
+            To add RESTing bot to a server, click [here](${process.env.BOT_INVITE_URL}).
 
             **Support**
-            Click [here](https://github.com/tales-garcia/resting-bot/issues/new) to open an issue in github if you're having trouble or have any questions.`
+            Click [here](${process.env.GITHUB_REPO}/issues/new) to open an issue in github if you're having trouble or have any questions.`
         });
     }
 
@@ -81,7 +81,7 @@ export default class MessagesController {
             **Add to Discord**
             To add RESTing bot to a server, click [here](https://discord.com/api/oauth2/authorize?client_id=785489602143322134&permissions=0&scope=applications.commands%20bot).
 
-            If you have any questions or need help with RESTing bot, **click [here](https://github.com/tales-garcia/resting-bot/issues/new)** to open an issue in **github**!`
+            If you have any questions or need help with RESTing bot, **click [here](${process.env.GITHUB_REPO}/issues/new)** to open an issue in **github**!`
         });
     }
 }
