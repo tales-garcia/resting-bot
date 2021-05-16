@@ -28,8 +28,11 @@ const bodyParser = (body: string) => {
 
 const urlParser = (url: string) => {
     if (!url.match(/^[a-zA-Z]+:\/\//)) {
-        return `http://${url}`;
+        url = `http://${url}`;
     }
+
+    if (['localhost', '127.0.0.1', '0.0.0.0'].includes(new URL(url).hostname)) throw new AppError('Looks like you are trying to access your localhost, however RESTing bot is not able to do so.');
+
     return url;
 }
 
